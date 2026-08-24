@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanjeet Kumar — Data Analytics</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background:#0f172a;
+    color:#e2e8f0;
+    line-height:1.6;
+  }
+
+  a { color:inherit; text-decoration:none; }
+
+  .container { max-width:900px; margin:0 auto; padding:0 24px; }
+
+  /* NAVBAR */
+  nav {
+    position:sticky; top:0;
+    background:#0f172a;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 20px;
+    border-bottom:1px solid #1e293b;
+    z-index:100;
+  }
+  nav h2 { color:#38bdf8; font-size:19px; }
+  nav ul { display:flex; gap:24px; list-style:none; }
+  nav a { font-size:14px; transition:color .3s; }
+  nav a:hover { color:#38bdf8; }
+
+  .menu-btn {
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:6px;
+    z-index:110;
+  }
+  .menu-btn span {
+    width:24px; height:2px;
+    background:#e2e8f0;
+    transition:transform .3s ease, opacity .3s ease;
+  }
+  .menu-btn.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .menu-btn.open span:nth-child(2){ opacity:0; }
+  .menu-btn.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+  @media (max-width:720px){
+    .menu-btn{ display:flex; }
+    nav ul{
+      position:fixed;
+      top:56px; left:0; right:0;
+      flex-direction:column;
+      background:#0f172a;
+      border-bottom:1px solid #1e293b;
+      padding:18px 24px;
+      gap:16px;
+      transform:translateY(-140%);
+      transition:transform .35s ease;
+    }
+    nav ul.open{ transform:translateY(0); }
+    nav a{ font-size:15px; display:block; }
+  }
+
+  /* FADE-IN ANIMATION */
+  .fade-in {
+    opacity:0;
+    transform:translateY(20px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .fade-in.show {
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* HERO */
+  header {
+    text-align:center;
+    padding:80px 20px 70px;
+  }
+  .profile-photo {
+    width:240px; height:240px;
+    object-fit:cover;
+    margin-bottom:10px;
+    -webkit-mask-image: radial-gradient(circle, #000 55%, transparent 78%);
+    mask-image: radial-gradient(circle, #000 55%, transparent 78%);
+    opacity:0;
+    animation: photoFade 1.4s ease forwards .2s;
+  }
+  @keyframes photoFade {
+    from { opacity:0; transform:scale(.92); }
+    to { opacity:1; transform:scale(1); }
+  }
+  header h1 {
+    font-size:42px;
+    margin-bottom:10px;
+  }
+  header h1 span { color:#38bdf8; }
+  header p {
+    color:#94a3b8;
+    max-width:500px;
+    margin:0 auto 24px;
+  }
+  .contact-line {
+    font-size:14px;
+    color:#94a3b8;
+    margin-bottom:26px;
+  }
+  .contact-line a { color:#38bdf8; }
+
+  .btn {
+    display:inline-block;
+    background:#38bdf8;
+    color:#0f172a;
+    padding:12px 26px;
+    border-radius:6px;
+    font-weight:bold;
+    transition:transform .3s, background .3s;
+  }
+  .btn:hover { background:#0ea5e9; transform:translateY(-3px); }
+
+  /* SECTIONS */
+  section { padding:60px 0; border-top:1px solid #1e293b; }
+  section h2 {
+    font-size:26px;
+    margin-bottom:30px;
+    text-align:center;
+  }
+  section h2::after {
+    content:'';
+    display:block;
+    width:50px; height:3px;
+    background:#38bdf8;
+    margin:10px auto 0;
+  }
+
+  /* ABOUT */
+  #about p { max-width:650px; margin:0 auto 14px; color:#cbd5e1; text-align:center; }
+
+  .edu-box {
+    background:#1e293b;
+    padding:18px 22px;
+    border-radius:8px;
+    margin:14px auto;
+    max-width:600px;
+  }
+  .edu-box h4 { color:#38bdf8; margin-bottom:4px; }
+  .edu-box p { text-align:left; margin:0; color:#94a3b8; font-size:14px; }
+
+  /* SKILLS */
+  .skills {
+    display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
+  }
+  .skills span {
+    background:#1e293b;
+    padding:10px 18px;
+    border-radius:20px;
+    font-size:14px;
+    transition:transform .3s, background .3s;
+  }
+  .skills span:hover {
+    background:#38bdf8;
+    color:#0f172a;
+    transform:translateY(-4px);
+  }
+
+  /* PROJECTS */
+  .project-grid {
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:20px;
+  }
+  @media (max-width:640px){ .project-grid{ grid-template-columns:1fr; } }
+
+  .project-card {
+    background:#1e293b;
+    padding:24px;
+    border-radius:10px;
+    border:1px solid #334155;
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  .project-card:hover {
+    transform:translateY(-6px);
+    border-color:#38bdf8;
+  }
+  .project-card h3 { color:#38bdf8; margin-bottom:8px; font-size:18px; }
+  .project-card p { color:#94a3b8; font-size:14px; margin-bottom:12px; }
+  .tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .tags span {
+    font-size:11px;
+    background:#0f172a;
+    padding:4px 10px;
+    border-radius:20px;
+    color:#38bdf8;
+  }
+
+  /* CERTIFICATIONS */
+  .cert-list { max-width:500px; margin:0 auto; }
+  .cert-list li {
+    list-style:none;
+    background:#1e293b;
+    padding:14px 20px;
+    border-radius:8px;
+    margin-bottom:12px;
+  }
+  .cert-list li b { color:#38bdf8; }
+
+  /* CONTACT / FOOTER */
+  footer {
+    text-align:center;
+    padding:50px 20px;
+    border-top:1px solid #1e293b;
+  }
+  footer p { color:#94a3b8; margin-top:10px; font-size:14px; }
+
+  /* ============ MOBILE RESPONSIVE ============ */
+  @media (max-width:640px){
+    header{ padding:56px 16px 50px; }
+    .profile-photo{ width:160px; height:160px; }
+    header h1{ font-size:30px; }
+    header p{ font-size:14.5px; padding:0 6px; }
+    .contact-line{ font-size:12.5px; line-height:1.9; }
+    .btn{ padding:11px 22px; font-size:14px; }
+
+    section{ padding:44px 0; }
+    section h2{ font-size:22px; }
+
+    .container{ padding:0 18px; }
+
+    .edu-box{ padding:14px 16px; }
+    .edu-box h4{ font-size:15px; }
+    .edu-box p{ font-size:13px; }
+
+    .skills span{ padding:8px 14px; font-size:13px; }
+
+    .project-card{ padding:18px; }
+    .project-card h3{ font-size:16.5px; }
+    .project-card p{ font-size:13.5px; }
+
+    .cert-list li{ padding:12px 16px; font-size:14px; }
+
+    footer h2{ font-size:22px; }
+    footer p{ font-size:13px; }
+  }
+
+  @media (max-width:380px){
+    header h1{ font-size:26px; }
+    .profile-photo{ width:130px; height:130px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <h2>Sanjeet Kumar</h2>
+  <ul id="navMenu">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<header class="fade-in">
+  <img src="sanjeet-photo.jpg" alt="Sanjeet Kumar" class="profile-photo">
+  <h1>Hi, I'm <span>Sanjeet Kumar</span></h1>
+  <p>B.Tech in Electronics &amp; Communications  — aspiring Data Analyst skilled in SQL, Python, Power BI and Excel.</p>
+  <p class="contact-line">
+    <a href="tel:+918757869056">+91 87578 69056</a> &nbsp;|&nbsp;
+    <a href="mailto:ksanjeet1204@gmail.com">ksanjeet1204@gmail.com</a> &nbsp;|&nbsp;
+    <a href="https://www.linkedin.com/in/sanjeet-kumar-3310a6280" target="_blank" rel="noopener">LinkedIn</a> &nbsp;|&nbsp; Bihar, India
+  </p>
+  <a href="#projects" class="btn">See My Projects</a>
+</header>
+
+<section id="about" class="fade-in">
+  <div class="container">
+    <h2>About Me</h2>
+    <p>Fresher with a B.Tech in Electronics &amp; Communications and academic project experience in SQL, Python, Power BI and Excel. Seeking a Data Analytics role where I can apply data cleaning, visualization and analytical skills to derive real business insights.</p>
+
+    <div class="edu-box">
+      <h4>B.Tech, Electronics &amp; Communications</h4>
+      <p>Greater Noida Institute of Technology (GNIOT), UP — Nov 2021 to Jun 2025 · CGPA 6.5</p>
+    </div>
+    <div class="edu-box">
+      <h4>Intermediate</h4>
+      <p>Jagdam College, Chhapra, Bihar — Jul 2019 to May 2021 · 70%</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="fade-in">
+  <div class="container">
+    <h2>Skills</h2>
+    <div class="skills">
+      <span>SQL</span>
+      <span>Python</span>
+      <span>Power BI</span>
+      <span>MS Excel</span>
+      <span>Java</span>
+      <span>HTML</span>
+      <span>CSS</span>
+      <span>MySQL</span>
+      <span>PostgreSQL</span>
+      <span>Data Visualization</span>
+      <span>Statistics</span>
+      <span>KPI Dashboards</span>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="fade-in">
+  <div class="container">
+    <h2>Projects</h2>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <h3>Restaurant Sales Analytics Dashboard</h3>
+        <p>Cleaned raw sales data and built interactive Power BI dashboards to track revenue, orders and customer trends with KPIs and slicers.</p>
+        <div class="tags"><span>Excel</span><span>Power BI</span></div>
+      </div>
+
+      <div class="project-card">
+        <h3>Task Manager App</h3>
+        <p>Java + SQL app with full CRUD operations, connected to a relational database using JDBC.</p>
+        <div class="tags"><span>Java</span><span>SQL</span></div>
+      </div>
+
+      <div class="project-card">
+        <h3>Hospital Data Management System</h3>
+        <p>Relational system to manage patient records, appointments and reporting with structured SQL queries.</p>
+        <div class="tags"><span>Java</span><span>MySQL</span></div>
+      </div>
+
+      <div class="project-card">
+        <h3>Business Data Analytics Project</h3>
+        <p>End-to-end workflow — cleaning data with Python and SQL, then building a final Power BI/Excel KPI dashboard.</p>
+        <div class="tags"><span>Python</span><span>SQL</span><span>Power BI</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="certifications" class="fade-in">
+  <div class="container">
+    <h2>Certifications</h2>
+    <ul class="cert-list">
+      <li><b>Data Analytics</b> — Jspider, Qspider</li>
+      <li><b>Embedded Software Developer</b> — Sofcon India Pvt Ltd</li>
+    </ul>
+  </div>
+</section>
+
+<footer id="contact" class="fade-in">
+  <h2>Get In Touch</h2>
+  <a href="mailto:ksanjeet1204@gmail.com" class="btn">Email Me</a>
+  <p>+91 87578 69056 &nbsp;|&nbsp; Bihar, India &nbsp;|&nbsp; <a href="https://www.linkedin.com/in/sanjeet-kumar-3310a6280" target="_blank" rel="noopener" style="color:#38bdf8;">LinkedIn</a></p>
+  <p>© 2026 Sanjeet Kumar</p>
+</footer>
+
+<script>
+  // simple fade-in on scroll
+  const items = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(item => observer.observe(item));
+
+  // mobile menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const navMenu = document.getElementById('navMenu');
+  menuBtn.addEventListener('click', () => {
+    menuBtn.classList.toggle('open');
+    navMenu.classList.toggle('open');
+  });
+  navMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuBtn.classList.remove('open');
+      navMenu.classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>
